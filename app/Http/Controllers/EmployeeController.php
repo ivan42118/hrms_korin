@@ -16,8 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-         $divisions = Division::all(); // untuk dropdown divisi
-        return view('employees.create', compact('divisions'));
+        $employees = Employee::with('division')->get(); // relasi dengan Division
+        return view('employees.index', compact('employees'));
     }
 
     /**
@@ -72,7 +72,9 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        $divisions = Division::all();
+        return view('employees.edit', compact('employee', 'divisions'));
     }
 
     /**
@@ -83,9 +85,22 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
-    }
+        {
+            $validated = $request->validate([
+                'nip' => 'required|unique:employees,nip,' . $id,
+                'nama_lengkap' => 'required|string|max:255',
+                'jabatan' => 'required|string',
+                'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+                'tanggal_masuk' => 'required|date',
+                'division_id' => 'required|exists:divisions,id',
+            ]);
+
+            $employee = Employee::findOrFail($id);
+            $employee->update($validated);
+
+            return redirect()->route('employees.index')->with('success', 'Data karyawan berhasil diperbarui!');
+        }
+
 
     /**
      * Remove the specified resource from storage.
@@ -95,6 +110,9 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        $employee->delete();
+
+        return redirect()->route('employees.index')->with('success', 'Data karyawan berhasil dihapus!');
     }
 }

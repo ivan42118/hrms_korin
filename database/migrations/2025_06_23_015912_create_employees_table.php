@@ -13,11 +13,13 @@ class CreateEmployeesTable extends Migration
      */
     public function up()
     {
-        Schema::create('employees', function (Blueprint $table) {
+       Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('nik')->unique();
-            $table->enum('tipe', ['Harian Lepas', 'Kontrak']);
+            $table->string('nama_lengkap');
+            $table->string('nip')->unique();
+            $table->string('jabatan');
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->date('tanggal_masuk');
             $table->foreignId('division_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

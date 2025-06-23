@@ -5,3 +5,5 @@
     <button type="submit">Simpan</button>
 </form>
 <a href="{{ route('divisions.index') }}">← Kembali</a>
+
+

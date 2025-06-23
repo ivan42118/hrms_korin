@@ -12,10 +12,11 @@
             <input type="text" name="nama_lengkap" required>
         </div>
 
-        <div>
+       <div>
             <label>NIP</label>
             <input type="text" name="nip" required>
         </div>
+        
 
         <div>
             <label>Jabatan</label>
