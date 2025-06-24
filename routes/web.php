@@ -5,6 +5,7 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PayrollController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,7 @@ Route::middleware(['auth', 'role:HRD'])->group(function () {
     Route::resource('divisions', DivisionController::class);
     Route::resource('employees', EmployeeController::class);
     Route::get('/rekap-absensi', [ReportController::class, 'index'])->name('rekap.index');
+    Route::resource('payrolls', PayrollController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
