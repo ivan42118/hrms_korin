@@ -15,7 +15,9 @@ class Employee extends Model
         'jabatan',
         'jenis_kelamin',
         'tanggal_masuk',
-        'division_id'
+        'division_id',
+        'tarif_harian',
+        'tarif_lembur'
     ];
 
     public function division()

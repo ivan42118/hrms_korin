@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLemburJamToAttendancesTable extends Migration
+class AddTarifFieldsToEmployeesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class AddLemburJamToAttendancesTable extends Migration
      */
     public function up()
     {
-        Schema::table('attendances', function (Blueprint $table) {
-            //
+        Schema::table('employees', function (Blueprint $table) {
+            $table->decimal('tarif_harian', 10, 2)->nullable();
+            $table->decimal('tarif_lembur', 10, 2)->nullable();
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -25,9 +27,8 @@ class AddLemburJamToAttendancesTable extends Migration
      */
     public function down()
     {
-        Schema::table('attendances', function (Blueprint $table) {
-            $table->integer('lembur_jam')->default(0)->after('status');
+        Schema::table('employees', function (Blueprint $table) {
+            $table->dropColumn(['tarif_harian', 'tarif_lembur']);
         });
-
     }
 }

@@ -47,6 +47,17 @@
             </select>
         </div>
 
+        <div>
+            <label>Tarif Harian</label>
+            <input type="number" step="0.01" name="tarif_harian" required>
+        </div>
+
+        <div>
+            <label>Tarif Lembur per Jam</label>
+            <input type="number" step="0.01" name="tarif_lembur" required>
+        </div>
+
+
         <button type="submit">Update</button>
     </form>
 </div>
