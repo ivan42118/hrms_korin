@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AttendanceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,10 +13,20 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-// Tambahkan route untuk divisions dan employees
-Route::middleware(['auth'])->group(function () {
+// Hanya HRD & ADM yang boleh akses data karyawan
+Route::middleware(['auth', 'role:HRD,ADM'])->group(function () {
+    Route::resource('employees', EmployeeController::class);
+});
+
+// Hanya HRD yang boleh akses data divisi
+Route::middleware(['auth', 'role:HRD'])->group(function () {
     Route::resource('divisions', DivisionController::class);
     Route::resource('employees', EmployeeController::class);
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('attendances', AttendanceController::class);
+});
+
 
 require __DIR__.'/auth.php';
