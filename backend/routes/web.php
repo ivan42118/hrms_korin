@@ -12,6 +12,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/admin-only', function () {
+    return "Halo Admin!";
+})->middleware('checkRole:Admin');
+
+Route::get('/hrd-or-admin', function () {
+    return "Halo HRD atau Admin!";
+})->middleware('checkRole:Admin,HRD');
+
+Route::get('/karyawan', function () {
+    return "Halo Karyawan!";
+})->middleware('checkRole:Karyawan');
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
