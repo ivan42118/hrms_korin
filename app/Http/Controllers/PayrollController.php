@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Payroll;
-
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class PayrollController extends Controller
@@ -25,7 +25,8 @@ class PayrollController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employee::all();
+        return view('payrolls.create', compact('employees'));
     }
 
     /**
@@ -36,7 +37,19 @@ class PayrollController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'periode' => 'required|date_format:Y-m',
+            'gaji_pokok' => 'required|numeric',
+            'jam_lembur' => 'required|numeric',
+            'upah_lembur_per_jam' => 'required|numeric',
+        ]);
+
+        $validated['total_gaji'] = $validated['gaji_pokok'] + ($validated['jam_lembur'] * $validated['upah_lembur_per_jam']);
+
+        Payroll::create($validated);
+
+        return redirect()->route('payrolls.index')->with('success', 'Rekap gaji berhasil disimpan.');
     }
 
     /**
