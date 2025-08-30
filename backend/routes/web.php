@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,11 @@ Route::get('/karyawan', function () {
     return "Halo Karyawan!";
 })->middleware('checkRole:Karyawan');
 
-Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 require __DIR__.'/auth.php';
